@@ -1,18 +1,13 @@
-FROM ubuntu:latest
+FROM openjdk:8-alpine
 
-LABEL maintainer "github.com/baschtie"
-
-ENV TZ=Europe/Berlin
+LABEL maintainer "baschtie"
 
 ENV SPIGOT_VERSION=latest
 
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+ENV MEMORY=1024M
 
-RUN apt update && \
-    apt install -y \
-    git \
-    openjdk-11-jre \
-    wget
+RUN apk add --no-cache \
+    git
 
 RUN adduser java --system
 
@@ -22,13 +17,8 @@ RUN chown java /buildtools
 
 USER java
 
-RUN wget -O BuildTools.jar https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
+RUN mkdir ./output
 
-RUN mkdir ./build-output
-
-#RUN git config --global --unset core.autocrlf
-
-# VOLUME ["./build-output"]
-
-CMD java -jar BuildTools.jar --rev $SPIGOT_VERSION \
-    && mv ./spigot-*.jar ./build-output/
+ENTRYPOINT  wget -O BuildTools.jar https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar && \
+            java -Xmx$MEMORY -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -jar BuildTools.jar --rev $SPIGOT_VERSION && \
+            mv ./spigot-*.jar ./output/
