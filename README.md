@@ -17,6 +17,8 @@ docker run --rm -v $(pwd)/output:/buildtools/output -e SPIGOT_VERSION=latest bas
 
 ```-e MEMORY=1024M``` sets the available memory (needs to be at least 512M, recommended is 1024M)
 
+```-it``` can be used so ```crtl + c``` works while the container is running
+
 ### about the image
 
 Image is based on openjdk:8-alpine
