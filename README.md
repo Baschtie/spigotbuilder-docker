@@ -7,7 +7,7 @@ Uses Spigot Buildtools to build spigot.jar
 docker run --rm -v $(pwd)/output:/buildtools/output -e SPIGOT_VERSION=latest baschtie/spigotbuilder
 ```
 
-### options
+### Options
 
 ```--rm``` is used so the container will remove itself after it is done building
 
