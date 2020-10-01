@@ -3,4 +3,6 @@ wget -O BuildTools.jar https://hub.spigotmc.org/jenkins/job/BuildTools/lastSucce
 
 java -Xmx$MEMORY -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -jar BuildTools.jar --rev $SPIGOT_VERSION
 
+chmod +x ./spigot-*.jar
+
 mv ./spigot-*.jar ./output/
